@@ -289,3 +289,19 @@ p{overflow-wrap:break-word}
  .reader-mobile-toolbar .reader-focus-toggle{font-size:.72rem;min-height:34px;padding:6px 11px}
 }
 @media print{.reader-mobile-toolbar{display:none!important}}
+
+/* Mobile navigation and assessment finish */
+.menu-toggle{border-radius:11px;border:1px solid #dce4d6;background:#fff;transition:background .2s,border-color .2s}
+.menu-toggle span{transition:transform .2s}
+.menu-toggle[aria-expanded="true"]{background:#e6f2d4;border-color:#bdd3ab}
+.menu-toggle[aria-expanded="true"] span:first-child{transform:translateY(4px) rotate(45deg)}
+.menu-toggle[aria-expanded="true"] span:last-child{transform:translateY(-4px) rotate(-45deg)}
+.mobile-menu{background:linear-gradient(135deg,#f9fbf4,#f0f6e8);padding:14px 25px 23px;box-shadow:0 17px 30px rgba(20,30,17,.08)}
+.mobile-menu a{padding:13px 16px;margin:3px 0;border-bottom:0;border-radius:11px;font-size:.88rem;transition:background .15s}
+.mobile-menu a:hover,.mobile-menu a:focus-visible{background:#e1eecf}
+.exam-card{transition:transform .24s ease,box-shadow .24s ease}
+.exam-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.answer-option{transition:border-color .18s,background .18s,transform .18s}
+.answer-option:hover{border-color:#a8c880;transform:translateX(3px)}
+.answer-option.selected{background:#eaf6d3;border-color:#8fb757}
+@media(prefers-reduced-motion:reduce){.menu-toggle span,.exam-card,.answer-option{transition:none!important}}
