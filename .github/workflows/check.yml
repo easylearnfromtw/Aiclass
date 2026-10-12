@@ -12,10 +12,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Check JavaScript syntax
-        run: node --check app.js
+        run: |
+          node --check app.js
+          node --check handouts.js
       - name: Ensure required website assets exist
         run: |
           test -s index.html
           test -s styles.css
           test -s app.js
+          test -s handouts.js
+          test -s handouts.css
           test -s favicon.svg
