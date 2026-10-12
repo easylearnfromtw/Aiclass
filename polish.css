@@ -246,3 +246,29 @@ p{overflow-wrap:break-word}
  .handout-document:before{display:none}
  .handout-markdown{max-width:none}
 }
+
+
+/* Editorial feature / Knowledge library */
+.knowledge-feature{padding:5px 0 90px;background:var(--paper)}
+.knowledge-panel{min-height:470px;border:1px solid #dce6d3;border-radius:27px;background:linear-gradient(115deg,#f1f7e4 0%,#eff5e8 62%,#e4efda 100%);display:grid;grid-template-columns:1.08fr .92fr;overflow:hidden;position:relative}
+.knowledge-copy{padding:clamp(35px,5vw,70px);position:relative;z-index:3;align-self:center}
+.knowledge-copy .eyebrow{color:#648046}
+.knowledge-copy h2{font-size:clamp(2.3rem,4.3vw,4.5rem);line-height:1.12;letter-spacing:-.068em;margin:22px 0}
+.knowledge-copy p{max-width:510px;font-size:.94rem;color:#5f705b;line-height:1.9;margin:0}
+.knowledge-graphic{position:relative;min-height:470px;perspective:900px;isolation:isolate}
+.knowledge-graphic:before{content:"";position:absolute;width:480px;height:480px;border:1px solid #afc49f;opacity:.45;border-radius:50%;top:-110px;right:-100px}
+.knowledge-graphic:after{content:"";position:absolute;width:370px;height:370px;bottom:-160px;left:30px;border:1px solid #a9bd93;opacity:.4;border-radius:50%}
+.knowledge-sheet{position:absolute;top:17%;left:25%;width:min(330px,67%);height:325px;padding:30px;box-shadow:0 30px 50px rgba(42,64,28,.12);border-radius:10px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .5s ease}
+.knowledge-sheet span{font-size:.64rem;letter-spacing:.12em;font-weight:800}
+.knowledge-sheet strong{font-size:3.2rem;line-height:1.02;letter-spacing:-.075em}
+.knowledge-sheet small{font-size:.64rem;letter-spacing:.075em;font-weight:800}
+.sheet-back{background:#b8c9fc;color:#1f2b55;transform:rotate(17deg) translateX(78px) translateY(-14px);z-index:1}
+.sheet-mid{background:#f2c2c8;color:#4d2a34;transform:rotate(5deg) translateX(28px) translateY(6px);z-index:2}
+.sheet-front{background:#d8f568;color:#243321;transform:rotate(-10deg) translateX(-25px) translateY(29px);z-index:3}
+.sheet-front b{position:absolute;font-size:2.3rem;right:24px;top:23px}
+.knowledge-panel:hover .sheet-front{transform:rotate(-13deg) translateX(-48px) translateY(16px)}
+.knowledge-panel:hover .sheet-mid{transform:rotate(7deg) translateX(44px) translateY(0)}
+.knowledge-panel:hover .sheet-back{transform:rotate(19deg) translateX(88px) translateY(-21px)}
+@media(max-width:900px){.knowledge-panel{grid-template-columns:1fr}.knowledge-copy{padding:40px 35px}.knowledge-graphic{min-height:370px}.knowledge-sheet{width:300px;height:285px;left:calc(50% - 165px);top:12%;padding:24px}.knowledge-sheet strong{font-size:2.65rem}}
+@media(max-width:590px){.knowledge-feature{padding:0 0 62px}.knowledge-panel{border-radius:21px}.knowledge-copy{padding:32px 25px 15px}.knowledge-copy h2{font-size:2.35rem}.knowledge-copy p{font-size:.83rem}.knowledge-copy .row{gap:10px}.knowledge-copy .btn{font-size:.72rem;padding:10px 13px;min-height:40px}.knowledge-graphic{min-height:335px}.knowledge-sheet{width:245px;height:255px;left:calc(50% - 123px);top:18%;padding:23px}.knowledge-sheet strong{font-size:2.45rem}.sheet-back{transform:rotate(15deg) translateX(35px) translateY(-12px)}.sheet-mid{transform:rotate(4deg) translateX(12px)}.sheet-front{transform:rotate(-10deg) translateX(-25px) translateY(15px)}}
+@media(prefers-reduced-motion:reduce){.knowledge-sheet{transition:none}}
