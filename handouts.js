@@ -12,7 +12,7 @@ var samples=[
 {id:'h-07',courseId:'web',title:'AI 網站開發：從需求到部署',summary:'規劃基本需求、實作介面並建立安全的部署檢查清單。',mins:17,body:['# AI-Assisted Web Creation','','## 第一步：定義需求','找出目標使用者、主要情境、最小功能與不需要的內容。','','## 第二步：頁面結構','先畫出資訊架構，再安排首頁、內容頁、互動與錯誤狀態。','','## 第三步：功能測試','逐一確認表單、選單、連結、手機版互動及鍵盤操作。','','## 第四步：安全部署','- 公開前端不得存放 API Key','- 檢查所有路徑與網站 metadata','- 將私人資料交給真正受保護的後端','','## 小專題','完成一個響應式網站，並記錄測試與修改過程。'].join('\n')}
 ];
 samples.forEach(function(d){d.format='markdown';d.updated='2026-10-12'});
-function fresh(){return {custom:[],overrides:{},hidden:[],favorites:[],completed:[],notes:{}}}
+function fresh(){return {custom:[],overrides:{},hidden:[],favorites:[],completed:[],notes:{},readAt:{}}}
 function load(){try{var obj=JSON.parse(localStorage.getItem(KEY));if(!obj||typeof obj!=='object')return fresh();var z=fresh();Object.keys(z).forEach(function(k){if(obj[k]!==undefined)z[k]=obj[k]});if(!Array.isArray(z.custom)||!Array.isArray(z.hidden)||!Array.isArray(z.favorites)||!Array.isArray(z.completed))return fresh();return z}catch(e){return fresh()}}
 var db=load(),ctx,tab='全部',filter='all',query='';
 function save(){try{localStorage.setItem(KEY,JSON.stringify(db));return true}catch(e){ctx.notify('本機儲存失敗，請檢查瀏覽器空間。');return false}}
@@ -43,9 +43,9 @@ ctx.main(ctx.pageHead('CONTENT EDITOR / LOCAL','編輯講義。','本機文字�
 function click(e){var t=e.target.closest('[data-h-action]');if(!t)return;var action=t.dataset.hAction,id=t.dataset.id;
 if(action==='tab'){tab=t.dataset.tab;document.querySelectorAll('[data-h-action="tab"]').forEach(function(b){b.classList.toggle('active',b.dataset.tab===tab)});refreshGrid()}
 if(action==='favorite'&&find(id)){toggle(db.favorites,id);save();if(location.hash.indexOf('#/handouts')===0)library();else reader(id);ctx.notify(db.favorites.includes(id)?'已收藏':'已取消收藏')}
-if(action==='read'&&find(id)){toggle(db.completed,id);save();reader(id);ctx.notify(db.completed.includes(id)?'已標記讀完':'已取消讀完')}
+if(action==='read'&&find(id)){toggle(db.completed,id);if(!db.readAt||typeof db.readAt!=='object')db.readAt={};if(db.completed.includes(id))db.readAt[id]=new Date().toISOString();else delete db.readAt[id];save();reader(id);ctx.notify(db.completed.includes(id)?'已標記讀完':'已取消讀完')}
 if(action==='print')window.print();
-if(action==='delete'&&find(id)&&window.confirm('要從這台裝置移除這份講義嗎？')){if(samples.some(function(s){return s.id===id})){db.hidden.push(id)}else{db.custom=db.custom.filter(function(s){return s.id!==id})}delete db.notes[id];db.favorites=db.favorites.filter(function(s){return s!==id});db.completed=db.completed.filter(function(s){return s!==id});save();studio()}
+if(action==='delete'&&find(id)&&window.confirm('要從這台裝置移除這份講義嗎？')){if(samples.some(function(s){return s.id===id})){db.hidden.push(id)}else{db.custom=db.custom.filter(function(s){return s.id!==id})}delete db.notes[id];if(db.readAt)delete db.readAt[id];db.favorites=db.favorites.filter(function(s){return s!==id});db.completed=db.completed.filter(function(s){return s!==id});save();studio()}
 if(action==='reset'&&window.confirm('將清除講義修改、私人筆記、收藏與已讀狀態。確定嗎？')){db=fresh();save();studio()}
 if(action==='preview'){var body=document.getElementById('handout-body'),view=document.getElementById('handout-preview');if(!body||!view)return;var on=view.hidden;body.hidden=on;view.hidden=!on;if(on)view.innerHTML=renderMarkdown(body.value);t.textContent=on?'返回編輯':'預覽內容 ↗'}
 }
@@ -63,5 +63,5 @@ document.addEventListener('click',click);
 document.addEventListener('input',input);
 document.addEventListener('change',input);
 document.addEventListener('submit',submit);
-window.SWHandouts={render:function(r,parts,c){ctx=c;if(r==='handouts')library();else if(r==='handout')reader(parts[1]);else if(r==='handout-studio')studio();else if(r==='handout-editor')editor(parts[1]||'new');else return false;return true},summary:function(){return {total:all().length,completed:db.completed.filter(function(id){return !!find(id)}).length,favorites:db.favorites.length}},countForCourse:function(id){return all().filter(function(d){return d.courseId===id}).length}};
+window.SWHandouts={render:function(r,parts,c){ctx=c;if(r==='handouts')library();else if(r==='handout')reader(parts[1]);else if(r==='handout-studio')studio();else if(r==='handout-editor')editor(parts[1]||'new');else return false;return true},summary:function(){var visible=all(),ids=visible.map(function(d){return d.id}),readAt={};Object.keys(db.readAt||{}).forEach(function(id){if(ids.includes(id)&&db.completed.includes(id))readAt[id]=db.readAt[id]});return {total:visible.length,completed:db.completed.filter(function(id){return ids.includes(id)}).length,favorites:db.favorites.filter(function(id){return ids.includes(id)}).length,readAt:readAt}},countForCourse:function(id){return all().filter(function(d){return d.courseId===id}).length}};
 })();
